@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Jugadores Argentinos en USA — Dashboard</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --bg2:#ffffff; --card:#ffffff; --card2:#fbfcfe; --border:#dde3ea; --text:#1c2733; --muted:#6b7889;
+    --accent:#2876e0; --accent2:#6a3df0;
+    --t1:#1aa05a; --t1bg:#e3f7eb; --t1soft:#e3f7eb;
+    --t2:#b8860b; --t2bg:#fdf0d0; --t2soft:#fdf0d0;
+    --t3:#2876e0; --t3bg:#e3edfb; --t3soft:#e3edfb;
+    --t4:#6b7889; --t4bg:#eaedf1; --t4soft:#eaedf1;
+    --t5:#d63b3b; --t5bg:#fbe4e4; --t5soft:#fbe4e4;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(1200px 600px at 10% -10%, #eaf1fb 0%, var(--bg) 55%);color:var(--text);}
+  header{padding:28px 32px 8px;}
+  h1{margin:0 0 4px;font-size:23px;background:linear-gradient(90deg,#1c2733,#2876e0);-webkit-background-clip:text;background-clip:text;color:transparent;display:flex;align-items:center;gap:10px;}
+  .flag-icon{width:26px;height:26px;border-radius:50%;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+  .sub{color:var(--muted);font-size:13px;}
+  .sub-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;}
+  .sync-status{display:none;}
+  .refresh-btn{
+    background:var(--card);border:1px solid var(--border);color:var(--text);
+    padding:4px 10px;border-radius:20px;font-size:11.5px;cursor:pointer;transition:border-color .15s, color .15s;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .refresh-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:#b9c2cc;transition:background .2s;}
+  .sync-dot.syncing{background:#ffd23f;animation:pulse 1s infinite;}
+  .sync-dot.ok{background:#1aa05a;}
+  .sync-dot.error{background:#d63b3b;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .toprow{display:flex;gap:24px;align-items:flex-start;padding:0 32px 8px;flex-wrap:wrap;}
+  .statcol{flex:1 1 320px;min-width:280px;}
+  .col-title{margin:0 0 10px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  .col-title.panel-toggle{display:flex;align-items:center;gap:6px;}
+  .stats{display:flex;gap:14px;flex-wrap:wrap;}
+  .stat{background:linear-gradient(155deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:12px;padding:14px 20px;min-width:130px;flex:1 1 130px;box-shadow:0 2px 10px rgba(30,40,60,.06);}
+  .stat .num{font-size:26px;font-weight:800;}
+  .stat .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;padding:8px 32px 16px;align-items:center;}
+  .controls input,.controls select{
+    background:#fff;border:1px solid var(--border);color:var(--text);
+    padding:8px 12px;border-radius:8px;font-size:13px;transition:border-color .15s;
+  }
+  .controls input:focus,.controls select:focus{outline:none;border-color:var(--accent);}
+  .controls input{flex:1;min-width:180px;}
+  .tierlegend{display:flex;gap:14px;flex-wrap:wrap;padding:0 32px 18px;font-size:11.5px;color:var(--muted);}
+  .tierlegend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .panels{display:flex;gap:20px;padding:0 32px 16px;flex-wrap:wrap;}
+  .panel{background:linear-gradient(155deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:12px;padding:16px;flex:1;min-width:280px;box-shadow:0 2px 10px rgba(30,40,60,.06);}
+  .panel h3{margin:0 0 12px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;}
+  .panel-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:6px;transition:color .15s;}
+  .panel-toggle:hover{color:var(--accent);}
+  .chevron{display:inline-block;transition:transform .2s;font-size:10px;}
+  .panel-body{overflow:hidden;max-height:1000px;transition:max-height .25s ease, opacity .2s ease;opacity:1;}
+  .panel-body.collapsed{max-height:0;opacity:0;}
+  .panel.is-collapsed .chevron{transform:rotate(-90deg);}
+  .bar-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;}
+  .bar-label{width:140px;flex-shrink:0;color:var(--muted);text-align:right;}
+  .bar-track{flex:1;background:#eef1f5;border-radius:5px;height:15px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--border);}
+  .bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .3s;}
+  .bar-count{width:28px;color:var(--text);font-size:11.5px;font-weight:600;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead th{
+    text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.03em;padding:10px 10px;border-bottom:2px solid var(--border);
+    position:sticky;top:0;background:#f7f9fb;cursor:pointer;transition:color .15s;
+  }
+  thead th:hover{color:var(--accent);}
+  tbody td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  tbody tr{border-left:3px solid transparent;transition:background .15s;}
+  tbody tr:hover{background:#f2f6fb;}
+  .tablewrap{margin:0 32px 40px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:auto;max-height:560px;box-shadow:0 2px 10px rgba(30,40,60,.06);}
+  .tag{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;display:inline-block;letter-spacing:.01em;}
+  .name{font-weight:700;color:#0d1521;}
+  .muted{color:var(--muted);font-size:12px;}
+  a{color:var(--accent);text-decoration:none;font-weight:600;}
+  a:hover{text-decoration:underline;}
+  .count{padding:0 32px;color:var(--muted);font-size:12px;margin-bottom:6px;}
+
+  @media (max-width:720px){
+    header{padding:18px 16px 6px;}
+    h1{font-size:18px;}
+    .sub{font-size:12px;}
+    .toprow{padding:0 16px 8px;gap:18px;}
+    .statcol{min-width:0;flex:1 1 100%;}
+    .stats{gap:8px;}
+    .stat{padding:10px 14px;min-width:0;flex:1 1 calc(50% - 8px);}
+    .stat .num{font-size:20px;}
+    .controls{padding:8px 16px 12px;}
+    .controls input,.controls select{width:100%;flex:1 1 100%;min-width:0;}
+    .tierlegend{padding:0 16px 14px;gap:8px 12px;font-size:10.5px;}
+    .bar-label{width:90px;font-size:11px;}
+    .tablewrap{margin:0 16px 28px;max-height:480px;}
+    table{font-size:12px;}
+    thead th,tbody td{padding:7px 8px;}
+    .count{padding:0 16px;}
+    /* keep table scrollable horizontally instead of squeezing columns unreadably */
+    .tablewrap{overflow-x:auto;}
+    thead th, tbody td{white-space:nowrap;}
+    tbody td.muted, tbody td:last-child{white-space:normal;min-width:160px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><img src="flag.png" alt="Argentina" class="flag-icon"> Mapa de jugadores argentinos jóvenes en Estados Unidos</h1>
+  <div class="sub-row">
+    <span class="sub">Estado al 22/06/2026</span>
+    <span class="sync-status" id="syncStatus">Conectando con Google Sheets...</span>
+    <button class="refresh-btn" id="refreshBtn" title="Volver a sincronizar con el Sheet">
+      <span class="sync-dot" id="syncDot"></span> ⟳ Actualizar
+    </button>
+  </div>
+</header>
+
+<div class="toprow">
+  <div class="statcol">
+    <h3 class="col-title">Total filtrado</h3>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div class="statcol">
+    <h3 class="col-title">Por división</h3>
+    <div class="stats" id="chartDivision"></div>
+  </div>
+</div>
+
+<div class="tierlegend">
+  <span><i class="dot" style="background:var(--t1)"></i>Confirmado 2026-27</span>
+  <span><i class="dot" style="background:var(--t2)"></i>Prospecto/Prep → NCAA</span>
+  <span><i class="dot" style="background:var(--t3)"></i>Última confirmación 2025-26</span>
+  <span><i class="dot" style="background:var(--t4)"></i>Pendiente de verificar</span>
+  <span><i class="dot" style="background:var(--t5)"></i>Descartado / cautela</span>
+</div>
+
+<div class="controls">
+  <input id="search" type="text" placeholder="Buscar por nombre, universidad, provincia...">
+  <select id="filterTier"><option value="">Todos los niveles</option></select>
+  <select id="filterGenero"><option value="">Todos los géneros</option></select>
+  <select id="filterDivision"><option value="">Todas las divisiones</option></select>
+</div>
+
+<div class="count" id="count"></div>
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr>
+      <th data-k="nombre">Nombre</th>
+      <th data-k="genero">Género</th>
+      <th data-k="tier">Nivel</th>
+      <th data-k="anio">Año/Clase</th>
+      <th data-k="posicion">Posición</th>
+      <th data-k="origen">Origen (ARG)</th>
+      <th data-k="club_arg">Club en Argentina</th>
+      <th data-k="institucion">Institución USA</th>
+      <th data-k="division">División</th>
+      <th data-k="estado">Estado</th>
+      <th data-k="fecha">Fecha conf.</th>
+      <th>Fuente</th>
+      <th data-k="notas">Notas</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+</div>
+
+<script>
+const TIER_META = {
+  "Confirmado 2026-27": {c:"var(--t1)", bg:"var(--t1bg)"},
+  "Prospecto / Prep -> NCAA": {c:"var(--t2)", bg:"var(--t2bg)"},
+  "Última confirmación oficial 2025-26": {c:"var(--t3)", bg:"var(--t3bg)"},
+  "Pendiente de verificar (no en informe estricto)": {c:"var(--t4)", bg:"var(--t4bg)"},
+  "Descartado / cautela (no cumple estándar estricto)": {c:"var(--t5)", bg:"var(--t5bg)"},
+};
+
+const FALLBACK_DATA = [
+["Santiago Trouet","M","Confirmado 2026-27","N/D","Ala-pívot","Buenos Aires","Estudiantes de Madrid (España) / Arizona State (2025-26)","Ole Miss","NCAA D-I","Confirmado para 2026-27 tras transfer","01/05/2026","https://thesundevils.com/sports/mens-basketball/roster/player/santiago-trouet","Transferencia confirmada por 247Sports el 1/5/2026"],
+["Tyler Kropp","M","Confirmado 2026-27","Sophomore","Ala-pívot","N/D","Olentangy Liberty HS (USA)","Washington State","NCAA D-I","Confirmado en roster 2026-27","N/D","https://wsucougars.com/sports/mens-basketball/roster/tyler-kropp/15512","Vinculado a la selección argentina por FIBA"],
+["Thiago Sucatzky","M","Confirmado 2026-27","N/D","Base","N/D","FIU (2025-26)","Stetson","NCAA D-I","Confirmado por transferencia de primavera 2026","11/04/2026","https://247sports.com/player/thiago-sucatzky-46166121/","Stetson MBB publicó bienvenida oficial"],
+["Georgi Buzzetti","F","Confirmado 2026-27","N/D","N/D","Buenos Aires","Lanús / Florida SouthWestern (2025-26)","North Florida","NCAA D-I","Confirmada en roster 2026-27","N/D","https://unfospreys.com/sports/womens-basketball/roster","Corrección de nombre: 'Georgi', no 'Georgina'"],
+["Sol Depetris","F","Confirmado 2026-27","Freshman","Base","N/D","Unión Florida","Bowling Green","NCAA D-I","Confirmada en roster 2026-27","N/D","https://bgsufalcons.com/sports/womens-basketball/roster/sol-depetris/20096",""],
+["Paula López","F","Confirmado 2026-27","N/D","Base / Escolta","N/D","San Blas Alicante (España)","Detroit Mercy","NCAA D-I","Confirmada por incorporación de mayo 2026","13/05/2026","https://detroittitans.com/news/2026/5/13/womens-basketball-detroit-mercy-womens-basketball-adds-transfer-paula-lopez.aspx","Vínculo selección U19 argentina"],
+["Sol Castro","F","Confirmado 2026-27","Graduate student","N/D","Río Colorado","N/D","San Francisco","NCAA D-I","Confirmada en roster 2026-27","N/D","https://usfdons.com/sports/womens-basketball/roster",""],
+["Felipe Minzer","M","Prospecto / Prep -> NCAA","High school","Escolta / Alero","N/D","Zaragoza (España)","The Academy of Central Florida -> Austin Peay","NCAA D-I (incoming)","Confirmado como prospect con destino NCAA","10/04/2026","https://247sports.com/player/felipe-minzer-46151647/","Compromiso con Austin Peay reportado por Basquet Plus"],
+["Máximo Adams","M","Prospecto / Prep -> NCAA","High school","Alero","N/D","Sierra Canyon HS (USA)","North Carolina","NCAA D-I (incoming)","Firmado con UNC","19/11/2025","https://goheels.com/news/2025/11/19/mens-basketball-tar-heels-sign-maximo-adams","FIBA lo incluyó en roster tracker de Argentina"],
+["Juan Sebastián Gorosito","M","Última confirmación oficial 2025-26","Senior","Base / Escolta","Ceres, Santa Fe","N/D","San Diego","NCAA D-I","Senior 2025-26","N/D","https://usdtoreros.com/sports/mens-basketball/roster/juanse-gorosito/12922",""],
+["Bautista Giralt","M","Última confirmación oficial 2025-26","Redshirt Sophomore","Pívot","Buenos Aires","Obras Basket","Albany","NCAA D-I","Redshirt Sophomore 2025-26","N/D","https://ualbanysports.com/sports/mens-basketball/roster/bautista-giralt/11023",""],
+["Lucas Mercandino","M","Última confirmación oficial 2025-26","Junior","Alero","Córdoba","N/D","Lubbock Christian","NCAA D-II","Junior 2025-26","N/D","https://lcuchaps.com/sports/mens-basketball/roster/lucas-mercandino/4926",""],
+["Ignacio García","M","Última confirmación oficial 2025-26","Junior","Base","Villaguay, Entre Ríos","N/D","Lubbock Christian","NCAA D-II","Junior 2025-26","N/D","https://lcuchaps.com/sports/mens-basketball/roster/ignacio-garcia/4923",""],
+["Facundo Aranda","M","Última confirmación oficial 2025-26","Junior","Base","Mendoza","N/D","Biola","NCAA D-II","Junior 2025-26","N/D","https://athletics.biola.edu/sports/mens-basketball/roster/facundo-aranda/8456",""],
+["Bautista Rodríguez","M","Última confirmación oficial 2025-26","Sophomore","Alero","Santa Fe","N/D","Indiana Univ. of Pennsylvania","NCAA D-II","Sophomore 2025-26","N/D","https://iupathletics.com/sports/mens-basketball/roster/bautista-rodriguez/10579",""],
+["Guido Wanschelbaum","M","Última confirmación oficial 2025-26","Junior","Pívot","Buenos Aires","N/D","South Dakota Mines","NCAA D-II","Junior","N/D","https://gorockers.com/sports/mens-basketball/roster/guido-wanschelbaum/16885",""],
+["Matías Zanotto","M","Última confirmación oficial 2025-26","Freshman","Ala-pívot","Bahía Blanca","N/D","Augusta","NCAA D-II","Freshman 2025-26","N/D","https://augustajags.com/sports/mens-basketball/roster/matias-zanotto/5675",""],
+["Tobías Lábaque","M","Última confirmación oficial 2025-26","Sophomore","Escolta","Córdoba","N/D","Lynchburg","NCAA D-III","Sophomore 2025-26","N/D","https://lynchburgsports.com/sports/mens-basketball/roster/tobias-labaque/8439",""],
+["Bernardo Zappia","M","Última confirmación oficial 2025-26","Freshman","Pívot","Funes","N/D","Whittier","NCAA D-III","Freshman 2025-26","N/D","https://wcpoets.com/sports/mens-basketball/roster/bernardo-zappia/8378",""],
+["Delfina Cergneux","F","Última confirmación oficial 2025-26","Sophomore","N/D","Entre Ríos","N/D","Florida SouthWestern","NJCAA","Sophomore 2025-26","N/D","https://www.fswbucs.com/sports/wbkb/2025-26/roster","Nombre correcto: 'Cergneux'"],
+["Francisco Farabello","M","Pendiente de verificar (no en informe estricto)","N/D (ex TCU)","Base","N/D","N/D","Creighton","NCAA D-I","No verificado en este informe estricto","N/D","https://www.basquetplus.com/ncaa-estados-unidos-arranca-temporada-argentinos-francisco-farabello-francisco-caffaro-rafael-martinez-lucas-mercandino-juanse-gorosito-felipe-palazzo","Hijo de Daniel Farabello (histórico de Liga Argentina y selección nacional). Pendiente confirmar roster 2026-27"],
+["Felipe Palazzo","M","Pendiente de verificar (no en informe estricto)","N/D","Pívot / Ala-pívot","N/D","Tucumán Básquet","Oregon State","NCAA D-I","No verificado en este informe estricto","N/D","https://www.basquetplus.com/ncaa-estados-unidos-arranca-temporada-argentinos-francisco-farabello-francisco-caffaro-rafael-martinez-lucas-mercandino-juanse-gorosito-felipe-palazzo","Pendiente confirmar roster 2026-27"],
+["Stéfano Alesso","M","Pendiente de verificar (no en informe estricto)","N/D","Pívot","Salta / Oberá","N/D","Stetson","NCAA D-I","No verificado en este informe estricto","N/D","https://basquetplus.com/ncaa-stefano-alesso-universidad-stetson-historia-pivote-gigante-salta-italia-obera-promesa-seleccion-argentina","Nacido en La Paz (Bolivia), criado en Salta. Jugó torneos en Italia y fue convocado por la selección italiana antes de optar por Argentina. Pendiente confirmar roster 2026-27"],
+["Alonso Easterling","M","Pendiente de verificar (no en informe estricto)","N/D","Ala-pívot / Pívot","N/D","N/D","Canisius (a confirmar)","NCAA D-I","No verificado en este informe estricto","N/D","https://basquetplus.com/ncaa-estados-unidos-alonso-easterling-nuevo-jugador-universidad-gardner-webb","Hijo de Stanley Easterling (extranjero histórico de la Liga Argentina, 428 partidos). Vive en USA desde los 4 años. Fuentes mencionan también Gardner-Webb"],
+["Máximo Milovich","M","Pendiente de verificar (no en informe estricto)","N/D (transfer)","N/D","N/D","N/D","UC San Diego","NCAA D-I","No verificado en este informe estricto","N/D","https://www.basquetplus.com/ncaa-maximo-milovich-division-I-uc-san-diego-transferencia",""],
+["Francisco Cáffaro","M","Pendiente de verificar (no en informe estricto)","N/D","Pívot","N/D","N/D","Virginia / Santa Clara","NCAA D-I","Carrera NCAA probablemente finalizada","N/D","https://en.wikipedia.org/wiki/Francisco_C%C3%A1ffaro","Verificar si sigue activo o ya es profesional"],
+["Juan Fernández","M","Pendiente de verificar (no en informe estricto)","N/D","Base / Escolta","N/D","N/D","South Carolina (desde 2026-27)","NCAA D-I","Comprometido, aún no debuta","N/D","https://basquetplus.com/ncaa-nil-juan-fernandez-girona-south-carolina-dinero-lee-aaliya","Era profesional en Girona; caso atípico"],
+["Marcus Adams Jr.","M","Descartado / cautela (no cumple estándar estricto)","N/D","Alero","N/D","N/D","Arizona State","NCAA D-I","Descartado","N/D","https://thesundevils.com/sports/mens-basketball/roster/player/marcus-adams","ASU lo presenta como jugador de Torrance, California, sin referencia a Argentina"],
+["Brenda Fontana","F","Descartado / cautela (no cumple estándar estricto)","Senior 2024-25","Ala-pívot","N/D","Vélez Sarsfield","Old Dominion","NCAA D-I","Sin afiliación nueva 2025-26/2026-27","N/D","https://odusports.com/sports/womens-basketball/roster/season/2024-25","Última evidencia fuerte: senior 2024-25"],
+["Natalia Tondi","F","Descartado / cautela (no cumple estándar estricto)","Senior 2024-25","Base","N/D","Unión Florida","Virginia Commonwealth","NCAA D-I","Sin continuidad en roster 2025-26","N/D","https://vcuathletics.com/sports/womens-basketball/roster/natalia-tondi/5593","Ya no figura en roster 2025-26 de VCU"],
+["Tiziana Huici","F","Descartado / cautela (no cumple estándar estricto)","Senior 2024-25","Base / Escolta","Tomás de Rocamora","N/D","Queens (NC)","NCAA D-II","Sin afiliación nueva posterior","N/D","https://queensathletics.com/sports/womens-basketball/roster/2024-2025","Senior night en febrero 2025"],
+["Julia Paoletta","F","Descartado / cautela (no cumple estándar estricto)","Senior 2024-25","N/D","Buenos Aires","N/D","Newberry","NCAA D-II","Sin continuidad pública posterior","N/D","https://newberrywolves.com/sports/womens-basketball/roster/2024-25",""],
+].map(r => ({
+  nombre:r[0], genero:r[1], tier:r[2], anio:r[3], posicion:r[4], origen:r[5],
+  club_arg:r[6], institucion:r[7], division:r[8], estado:r[9], fecha:r[10],
+  fuente:r[11], notas:r[12]
+}));
+
+let DATA = FALLBACK_DATA;
+let sortKey = null, sortAsc = true;
+
+const SHEET_ID = "1IhyDHkbahRjKNIpbQw6WonDAbYLSKf1tgSDREU5BON4";
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+const HEADER_MAP = ["nombre","genero","tier","anio","posicion","origen","club_arg","institucion","division","estado","fecha","fuente","notas"];
+
+function parseCSV(text){
+  const rows=[]; let row=[], field='', inQuotes=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQuotes){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inQuotes=false; }
+      else field+=c;
+    } else {
+      if(c==='"') inQuotes=true;
+      else if(c===','){ row.push(field); field=''; }
+      else if(c==='\n' || c==='\r'){
+        if(c==='\r' && text[i+1]==='\n') i++;
+        row.push(field); field=''; rows.push(row); row=[];
+      } else field+=c;
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r => r.some(v=>v!==""));
+}
+
+function rowsToData(rows){
+  return rows.slice(1).map(r=>{
+    const o={};
+    HEADER_MAP.forEach((k,i)=> o[k]=(r[i]||"").trim());
+    return o;
+  }).filter(d=>d.nombre);
+}
+
+function fillSelect(id, key){
+  const sel = document.getElementById(id);
+  sel.innerHTML = sel.options[0].outerHTML;
+  const vals = [...new Set(DATA.map(d=>d[key]).filter(Boolean))].sort();
+  vals.forEach(v=>{
+    const o = document.createElement("option");
+    o.value = v; o.textContent = v;
+    sel.appendChild(o);
+  });
+}
+
+function refreshSelectsAndRender(){
+  fillSelect("filterTier","tier");
+  fillSelect("filterGenero","genero");
+  fillSelect("filterDivision","division");
+  render();
+}
+
+async function loadFromSheet(silent){
+  const statusEl = document.getElementById("syncStatus");
+  const dotEl = document.getElementById("syncDot");
+  if(statusEl) statusEl.textContent = "Sincronizando con Google Sheets...";
+  if(dotEl) dotEl.className = "sync-dot syncing";
+  try{
+    const res = await fetch(CSV_URL, {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    const newData = rowsToData(rows);
+    if(!newData.length) throw new Error("Sheet vacío o formato inesperado");
+    DATA = newData;
+    refreshSelectsAndRender();
+    if(statusEl) statusEl.textContent = "Conectado a Google Sheets · actualizado " + new Date().toLocaleTimeString("es-AR");
+    if(dotEl) dotEl.className = "sync-dot ok";
+  }catch(e){
+    console.warn("No se pudo sincronizar con el Sheet, usando datos locales.", e);
+    if(statusEl) statusEl.textContent = "Sin conexión al Sheet (mostrando datos locales)";
+    if(dotEl) dotEl.className = "sync-dot error";
+  }
+}
+
+fillSelect("filterTier","tier");
+fillSelect("filterGenero","genero");
+fillSelect("filterDivision","division");
+
+function renderStats(rows){
+  const total = rows.length;
+  const t1 = rows.filter(r=>r.tier==="Confirmado 2026-27").length;
+  const fem = rows.filter(r=>r.genero==="F").length;
+  const masc = rows.filter(r=>r.genero==="M").length;
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="lbl">Total filtrado</div></div>
+    <div class="stat"><div class="num" style="color:var(--t1)">${t1}</div><div class="lbl">Confirmados 2026-27</div></div>
+    <div class="stat"><div class="num">${masc}</div><div class="lbl">Masculino</div></div>
+    <div class="stat"><div class="num">${fem}</div><div class="lbl">Femenino</div></div>
+  `;
+}
+
+function renderBarChart(targetId, rows, key, colorVar="var(--accent)"){
+  const counts = {};
+  rows.forEach(r=>{ counts[r[key]] = (counts[r[key]]||0)+1; });
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max = Math.max(...entries.map(e=>e[1]), 1);
+  document.getElementById(targetId).innerHTML = entries.map(([label,count])=>{
+    const pct = (count/max*100).toFixed(0);
+    const meta = TIER_META[label];
+    const color = meta ? meta.c : colorVar;
+    return `<div class="bar-row">
+      <div class="bar-label" title="${label}">${label.length>22?label.slice(0,20)+'…':label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="bar-count">${count}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderDivisionCards(targetId, rows, key){
+  const counts = {};
+  rows.forEach(r=>{ counts[r[key]] = (counts[r[key]]||0)+1; });
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById(targetId).innerHTML = entries.map(([label,count])=>`
+    <div class="stat">
+      <div class="num">${count}</div>
+      <div class="lbl">${label}</div>
+    </div>
+  `).join("");
+}
+
+function render(){
+  const q = document.getElementById("search").value.toLowerCase();
+  const ft = document.getElementById("filterTier").value;
+  const fg = document.getElementById("filterGenero").value;
+  const fd = document.getElementById("filterDivision").value;
+
+  let rows = DATA.filter(d=>{
+    if(ft && d.tier!==ft) return false;
+    if(fg && d.genero!==fg) return false;
+    if(fd && d.division!==fd) return false;
+    if(q){
+      const hay = `${d.nombre} ${d.institucion} ${d.origen} ${d.club_arg} ${d.posicion}`.toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if(sortKey){
+    rows.sort((a,b)=>{
+      const va=(a[sortKey]||"").toString(), vb=(b[sortKey]||"").toString();
+      return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+  }
+
+  document.getElementById("count").textContent = `${rows.length} jugador(es) encontrados`;
+  renderStats(rows);
+  renderDivisionCards("chartDivision", rows, "division");
+
+  document.getElementById("tbody").innerHTML = rows.map(d=>{
+    const meta = TIER_META[d.tier] || {c:"var(--muted)",bg:"#222"};
+    return `<tr style="border-left-color:${meta.c}">
+      <td class="name">${d.nombre}</td>
+      <td>${d.genero}</td>
+      <td><span class="tag" style="color:${meta.c};background:${meta.bg}">${d.tier}</span></td>
+      <td>${d.anio}</td>
+      <td>${d.posicion}</td>
+      <td>${d.origen}</td>
+      <td>${d.club_arg}</td>
+      <td>${d.institucion}</td>
+      <td>${d.division}</td>
+      <td>${d.estado}</td>
+      <td>${d.fecha}</td>
+      <td>${d.fuente ? `<a href="${d.fuente.split(' ; ')[0]}" target="_blank">link</a>` : ''}</td>
+      <td class="muted">${d.notas}</td>
+    </tr>`;
+  }).join("");
+}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("filterTier").addEventListener("change", render);
+document.getElementById("filterGenero").addEventListener("change", render);
+document.getElementById("filterDivision").addEventListener("change", render);
+document.querySelectorAll(".panel-toggle").forEach(h=>{
+  h.addEventListener("click", ()=>{
+    const body = document.getElementById(h.dataset.target);
+    body.classList.toggle("collapsed");
+    h.closest(".panel").classList.toggle("is-collapsed");
+  });
+});
+document.querySelectorAll("thead th[data-k]").forEach(th=>{
+  th.addEventListener("click", ()=>{
+    const k = th.dataset.k;
+    if(sortKey===k) sortAsc=!sortAsc; else {sortKey=k; sortAsc=true;}
+    render();
+  });
+});
+
+render();
+document.getElementById("refreshBtn").addEventListener("click", ()=>loadFromSheet());
+loadFromSheet();
+</script>
+</body>
+</html>
