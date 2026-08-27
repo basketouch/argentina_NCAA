@@ -48,16 +48,16 @@
     "nombre": "Georgi Buzzetti",
     "genero": "F",
     "tier": "Confirmado 2026-27",
-    "anio": "N/D",
-    "posicion": "N/D",
+    "anio": "Redshirt Junior",
+    "posicion": "Alero",
     "origen": "Buenos Aires",
-    "club_arg": "Lanús / Florida SouthWestern (2025-26)",
+    "club_arg": "Lanús (Argentina) → Florida SouthWestern (NJCAA, 3 temporadas)",
     "institucion": "North Florida",
     "division": "NCAA D-I",
-    "estado": "Confirmada en roster 2026-27",
-    "fecha": "N/D",
-    "fuente": "https://unfospreys.com/sports/womens-basketball/roster",
-    "notas": "Corrección de nombre: 'Georgi', no 'Georgina'"
+    "estado": "Confirmada en roster 2026-27 (ASUN Conference)",
+    "fecha": "21/05/2026",
+    "fuente": "https://unfospreys.com/sports/womens-basketball/roster/georgi-buzzetti/15271",
+    "notas": "Jugó todos los 30 partidos en 2025-26 (17 titularidades), 19.1 min/g. Ganadora del 2025 Play4Kay Servant Leadership Award. Transferida de Florida SouthWestern tras 3 temporadas."
   },
   {
     "nombre": "Sol Depetris",
@@ -92,17 +92,17 @@
   {
     "nombre": "Sol Castro",
     "genero": "F",
-    "tier": "Confirmado 2026-27",
-    "anio": "Graduate student",
-    "posicion": "N/D",
+    "tier": "Descartado / cautela",
+    "anio": "Graduate student (2025-26)",
+    "posicion": "Alero",
     "origen": "Río Colorado",
     "club_arg": "N/D",
     "institucion": "San Francisco",
     "division": "NCAA D-I",
-    "estado": "Confirmada en roster 2026-27",
+    "estado": "Carrera NCAA finalizada — era graduate student en 2025-26",
     "fecha": "N/D",
-    "fuente": "https://usfdons.com/sports/womens-basketball/roster",
-    "notas": ""
+    "fuente": "https://usfdons.com/sports/womens-basketball/roster/sol-castro/6143",
+    "notas": "Graduate student en 2025-26 (14 pts al 66.7% en 15 min). Carrera universitaria finalizada."
   },
   {
     "nombre": "Dylan Bordón",
@@ -287,17 +287,17 @@
   {
     "nombre": "Juan Sebastián Gorosito",
     "genero": "M",
-    "tier": "Última confirmación oficial 2025-26",
-    "anio": "Senior",
+    "tier": "Descartado / cautela",
+    "anio": "Senior (2025-26)",
     "posicion": "Base / Escolta",
     "origen": "Ceres, Santa Fe",
     "club_arg": "N/D",
-    "institucion": "San Diego",
+    "institucion": "Portland → Ball State → San Diego",
     "division": "NCAA D-I",
-    "estado": "Senior 2025-26",
+    "estado": "Carrera NCAA finalizada — Senior 2025-26 en San Diego",
     "fecha": "N/D",
     "fuente": "https://usdtoreros.com/sports/mens-basketball/roster/juanse-gorosito/12922",
-    "notas": ""
+    "notas": "Ruta: Portland → Ball State (2024-25) → San Diego (2025-26, senior, 10.5 pts / 32 partidos). Carrera universitaria finalizada."
   },
   {
     "nombre": "Bautista Giralt",
@@ -377,17 +377,17 @@
   {
     "nombre": "Guido Wanschelbaum",
     "genero": "M",
-    "tier": "Última confirmación oficial 2025-26",
-    "anio": "Junior",
-    "posicion": "Pívot",
+    "tier": "Pendiente de verificar",
+    "anio": "Junior (2025-26)",
+    "posicion": "Pívot / Ala-pívot",
     "origen": "Buenos Aires",
     "club_arg": "N/D",
     "institucion": "South Dakota Mines",
     "division": "NCAA D-II",
-    "estado": "Junior",
+    "estado": "No figura en roster 2026-27 de SD Mines",
     "fecha": "N/D",
     "fuente": "https://gorockers.com/sports/mens-basketball/roster/guido-wanschelbaum/16885",
-    "notas": ""
+    "notas": "6'9\", 220 lbs. En 2025-26 lideró en rebotes (9.7 RPG) y promedió 8.3 PPG antes de perderse 9 partidos por lesión. No aparece en el roster 2026-27 de SD Mines — posible transfer o baja sin confirmar."
   },
   {
     "nombre": "Matías Zanotto",
@@ -498,16 +498,16 @@
     "nombre": "Alonso Easterling",
     "genero": "M",
     "tier": "Última confirmación oficial 2025-26",
-    "anio": "N/D",
-    "posicion": "Ala-pívot / Pívot",
-    "origen": "N/D",
+    "anio": "Redshirt Freshman",
+    "posicion": "Pívot",
+    "origen": "Fayetteville, NC (padre argentino)",
     "club_arg": "N/D",
-    "institucion": "Canisius",
-    "division": "NCAA D-I",
-    "estado": "Confirmado en Canisius (MAAC) 2025-26",
+    "institucion": "Canisius → MSU West Plains (NJCAA)",
+    "division": "NJCAA",
+    "estado": "Confirmado en MSU West Plains (NJCAA) 2025-26",
     "fecha": "N/D",
-    "fuente": "https://basquetplus.com/ncaa-estados-unidos-alonso-easterling-nuevo-jugador-universidad-gardner-webb",
-    "notas": "Hijo de Stanley Easterling (extranjero histórico de la Liga Argentina, 428 partidos). Vive en USA desde los 4 años. Confirmado en Canisius Golden Griffins (NCAA D-I, MAAC)."
+    "fuente": "https://msuwpgrizzlies.com/sports/mbkb/2025-26/bios/easterling-alonso-2025-26",
+    "notas": "6'11\". Hijo de Stanley Easterling (histórico de la Liga Argentina, 428 partidos). Vive en USA desde los 4 años. Comenzó en Canisius (NCAA D-I), se transfirió a MSU West Plains (NJCAA) como Redshirt Freshman."
   },
   {
     "nombre": "Máximo Milovich",
@@ -527,17 +527,17 @@
   {
     "nombre": "Francisco Cáffaro",
     "genero": "M",
-    "tier": "Pendiente de verificar",
-    "anio": "N/D",
+    "tier": "Descartado / cautela",
+    "anio": "Graduado 2024",
     "posicion": "Pívot",
     "origen": "N/D",
-    "club_arg": "N/D",
-    "institucion": "Virginia / Santa Clara",
+    "club_arg": "Boca Juniors (Liga Nacional)",
+    "institucion": "Virginia → Santa Clara",
     "division": "NCAA D-I",
-    "estado": "Carrera NCAA probablemente finalizada",
+    "estado": "Carrera NCAA finalizada — juega en Boca Juniors",
     "fecha": "N/D",
     "fuente": "https://en.wikipedia.org/wiki/Francisco_C%C3%A1ffaro",
-    "notas": "Verificar si sigue activo o ya es profesional"
+    "notas": "7'1\". Graduado de Santa Clara en 2024. MVP de la Basketball Champions League Americas 2025-26 jugando para Boca Juniors."
   },
   {
     "nombre": "Juan Fernández",
@@ -808,5 +808,20 @@
     "fecha": "N/D",
     "fuente": "https://basquetplus.com/ncaa-informe-divisiones-menores-juan-dassie-pedro-rossi-ignacio-garcia-santiago-insaurralde-francisco-espinosa",
     "notas": ""
+  },
+  {
+    "nombre": "Julia Fernández",
+    "genero": "F",
+    "tier": "Prospecto / Prep → NCAA",
+    "anio": "2004",
+    "posicion": "Pívot / Ala-pívot",
+    "origen": "Buenos Aires",
+    "club_arg": "Ferrocarril Oeste (Liga Femenina)",
+    "institucion": "Sin compromiso aún",
+    "division": "",
+    "estado": "Prospecto en exposición NCAA",
+    "fecha": "Julio 2026",
+    "fuente": "https://www.fiba.basketball/en/players/301664-julia-fernandez",
+    "notas": "6'1\", nacida el 14/08/2004. Jugó en Ferrocarril Oeste (Liga Femenina Argentina). Participó en el NCAA College Basketball Academy (Rock Hill, SC, julio 2026) junto a Alma Bourgarel."
   }
 ]
