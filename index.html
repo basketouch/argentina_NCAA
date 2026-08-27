@@ -112,11 +112,8 @@
 <header>
   <h1><img src="flag.png" alt="Argentina" class="flag-icon"> Mapa de jugadores argentinos jóvenes en Estados Unidos</h1>
   <div class="sub-row">
-    <span class="sub">Estado al 22/06/2026</span>
-    <span class="sync-status" id="syncStatus">Conectando con Google Sheets...</span>
-    <button class="refresh-btn" id="refreshBtn" title="Volver a sincronizar con el Sheet">
-      <span class="sync-dot" id="syncDot"></span> ⟳ Actualizar
-    </button>
+    <span class="sub">Actualizado el 27/08/2026</span>
+    <span class="sync-dot" id="syncDot"></span>
   </div>
 </header>
 
@@ -173,10 +170,10 @@
 <script>
 const TIER_META = {
   "Confirmado 2026-27": {c:"var(--t1)", bg:"var(--t1bg)"},
-  "Prospecto / Prep -> NCAA": {c:"var(--t2)", bg:"var(--t2bg)"},
+  "Prospecto / Prep → NCAA": {c:"var(--t2)", bg:"var(--t2bg)"},
   "Última confirmación oficial 2025-26": {c:"var(--t3)", bg:"var(--t3bg)"},
-  "Pendiente de verificar (no en informe estricto)": {c:"var(--t4)", bg:"var(--t4bg)"},
-  "Descartado / cautela (no cumple estándar estricto)": {c:"var(--t5)", bg:"var(--t5bg)"},
+  "Pendiente de verificar": {c:"var(--t4)", bg:"var(--t4bg)"},
+  "Descartado / cautela": {c:"var(--t5)", bg:"var(--t5bg)"},
 };
 
 const FALLBACK_DATA = [
@@ -403,7 +400,6 @@ document.querySelectorAll("thead th[data-k]").forEach(th=>{
 });
 
 render();
-document.getElementById("refreshBtn").addEventListener("click", ()=>loadFromSheet());
 loadFromSheet();
 </script>
 </body>
