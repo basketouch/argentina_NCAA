@@ -823,5 +823,50 @@
     "fecha": "Julio 2026",
     "fuente": "https://www.fiba.basketball/en/players/301664-julia-fernandez",
     "notas": "6'1\", nacida el 14/08/2004. Jugó en Ferrocarril Oeste (Liga Femenina Argentina). Participó en el NCAA College Basketball Academy (Rock Hill, SC, julio 2026) junto a Alma Bourgarel."
+  },
+  {
+    "nombre": "Chiara De Virgilio",
+    "genero": "F",
+    "tier": "Descartado / cautela",
+    "anio": "Graduada 2022-23",
+    "posicion": "Base",
+    "origen": "Rosario, Santa Fe",
+    "club_arg": "Atalaya (campeona U17 Argentina 2015)",
+    "institucion": "Cloud County CC → Seattle Pacific",
+    "division": "NCAA D-II",
+    "estado": "Carrera NCAA finalizada",
+    "fecha": "N/D",
+    "fuente": "https://spufalcons.com/sports/womens-basketball/roster/chiara-de-virgilio/3398",
+    "notas": "Quinta year en Seattle Pacific (2022-23): 15 partidos, 2 titularidades, hasta lesión. Carrera universitaria finalizada."
+  },
+  {
+    "nombre": "Federica Laganá",
+    "genero": "F",
+    "tier": "Descartado / cautela",
+    "anio": "Senior 2025-26",
+    "posicion": "Base / Alero",
+    "origen": "Mar del Plata",
+    "club_arg": "N/D",
+    "institucion": "Florida SouthWestern (NJCAA) → Lincoln Memorial",
+    "division": "NCAA D-II",
+    "estado": "Carrera NCAA finalizada — Senior Day 2025-26",
+    "fecha": "27/02/2026",
+    "fuente": "https://lmurailsplitters.com/sports/womens-basketball/roster",
+    "notas": "5'11\". Ruta: Florida SouthWestern CC (NJCAA, 2 temporadas) → Lincoln Memorial (D-II, Senior). Convocada a la selección argentina de 3×3. Carrera universitaria finalizada."
+  },
+  {
+    "nombre": "Ianara Morbidoni",
+    "genero": "F",
+    "tier": "Última confirmación oficial 2025-26",
+    "anio": "Senior",
+    "posicion": "Alero / Ala-pívot",
+    "origen": "Ceres, Santa Fe",
+    "club_arg": "N/D",
+    "institucion": "Marshalltown CC → N. Central Missouri → Benedictine → Graceland",
+    "division": "NAIA",
+    "estado": "All-Conference NAIA (Heart) 2025-26 en Graceland",
+    "fecha": "2026",
+    "fuente": "https://www.gujackets.com/sports/wbkb/2025-26/players/ianaramorbidoni93w0",
+    "notas": "5'11\". Primera argentina en disputar un campeonato nacional en USA (NJCAA). Ruta larga: Marshalltown CC (NJCAA, 2021-22) → North Central Missouri CC (NJCAA D-II, 7° en nacional) → Benedictine (NAIA, 2023-24) → Graceland (NAIA, Heart Conference). All-Conference 2025-26."
   }
 ]
