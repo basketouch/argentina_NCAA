@@ -187,8 +187,7 @@
       <th data-k="nacimiento">Nacimiento</th>
       <th data-k="anio">Año / Cat.</th>
       <th data-k="posicion">Posición</th>
-      <th data-k="origen">Origen (ARG)</th>
-      <th data-k="club_arg">Club formación</th>
+      <th>Notas</th>
       <th data-k="institucion">Universidad</th>
       <th data-k="division">División</th>
       <th data-k="fecha">Fecha conf.</th>
@@ -384,12 +383,11 @@ function render(){
       <td>${d.nacimiento||"—"}</td>
       <td>${d.anio}</td>
       <td>${d.posicion}</td>
-      <td>${d.origen}</td>
-      <td>${d.club_arg}</td>
       <td>${d.institucion}</td>
       <td>${d.division}</td>
       <td>${d.fecha}</td>
       <td>${d.fuente ? `<a href="${d.fuente.split(' ; ')[0]}" target="_blank" onclick="event.stopPropagation()">link</a>` : ''}</td>
+      <td class="muted" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic">${d.notas ? d.notas.slice(0,80) + (d.notas.length>80?'…':'') : '—'}</td>
     </tr>`;
   }).join("");
   _currentRows = rows;
