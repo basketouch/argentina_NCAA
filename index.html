@@ -553,7 +553,14 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
     doc.text("Filtros: " + filtros, 14, y);
   }
 
-  doc.save(`argentinos-ncaa-${new Date().toISOString().slice(0,10)}.pdf`);
+  const partesFiltro = [
+    document.getElementById("filterTier").value,
+    document.getElementById("filterGenero").value,
+    document.getElementById("filterDivision").value,
+    document.getElementById("search").value.trim().slice(0,20),
+  ].filter(Boolean).map(s => s.replace(/\s+/g,"-").replace(/[^a-zA-Z0-9\-áéíóúÁÉÍÓÚüÜñÑ]/g,""));
+  const filtroStr = partesFiltro.length ? partesFiltro.join("-") : "todos";
+  doc.save(`arg-ncaa-${filtroStr}-${new Date().toISOString().slice(0,10)}.pdf`);
   showToast("✅ PDF descargado");
   setTimeout(hideToast, 2500);
   btn.disabled = false;
