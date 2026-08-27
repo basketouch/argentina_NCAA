@@ -263,28 +263,6 @@ function refreshSelectsAndRender(){
   render();
 }
 
-async function loadFromSheet(silent){
-  const statusEl = document.getElementById("syncStatus");
-  const dotEl = document.getElementById("syncDot");
-  if(statusEl) statusEl.textContent = "Sincronizando con Google Sheets...";
-  if(dotEl) dotEl.className = "sync-dot syncing";
-  try{
-    const res = await fetch(CSV_URL, {cache:"no-store"});
-    if(!res.ok) throw new Error("HTTP "+res.status);
-    const text = await res.text();
-    const rows = parseCSV(text);
-    const newData = rowsToData(rows);
-    if(!newData.length) throw new Error("Sheet vacío o formato inesperado");
-    DATA = newData;
-    refreshSelectsAndRender();
-    if(statusEl) statusEl.textContent = "Conectado a Google Sheets · actualizado " + new Date().toLocaleTimeString("es-AR");
-    if(dotEl) dotEl.className = "sync-dot ok";
-  }catch(e){
-    console.warn("No se pudo sincronizar con el Sheet, usando datos locales.", e);
-    if(statusEl) statusEl.textContent = "Sin conexión al Sheet (mostrando datos locales)";
-    if(dotEl) dotEl.className = "sync-dot error";
-  }
-}
 
 fillSelect("filterTier","tier");
 fillSelect("filterGenero","genero");
