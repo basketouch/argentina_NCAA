@@ -105,6 +105,21 @@
     "notas": ""
   },
   {
+    "nombre": "Dylan Bordón",
+    "genero": "M",
+    "tier": "Confirmado 2026-27",
+    "anio": "Freshman",
+    "posicion": "Base",
+    "origen": "Corrientes",
+    "club_arg": "San Martín de Corrientes / La Laguna Tenerife (España)",
+    "institucion": "San Francisco",
+    "division": "NCAA D-I",
+    "estado": "Confirmado en roster 2026-27",
+    "fecha": "29/06/2026",
+    "fuente": "https://usfdons.com/news/2026/6/29/mens-basketball-signs-guard-dylan-bord-n",
+    "notas": "Base 6'3\", nacido el 16/10/2004, doble nacionalidad argentina-italiana. Debutó en la selección senior argentina en 2025. Medalla de plata con Argentina en el AmeriCup 2025. Promedió 19.1 pts, 5.0 ast, 3.0 reb en Liga U22 de España."
+  },
+  {
     "nombre": "Felipe Minzer",
     "genero": "M",
     "tier": "Prospecto / Prep → NCAA",
@@ -362,17 +377,17 @@
   {
     "nombre": "Francisco Farabello",
     "genero": "M",
-    "tier": "Pendiente de verificar",
+    "tier": "Descartado / cautela",
     "anio": "N/D (ex TCU)",
     "posicion": "Base",
     "origen": "N/D",
     "club_arg": "N/D",
     "institucion": "Creighton",
     "division": "NCAA D-I",
-    "estado": "No verificado en este informe estricto",
+    "estado": "Carrera NCAA finalizada — juega profesionalmente en Brasil",
     "fecha": "N/D",
     "fuente": "https://www.basquetplus.com/ncaa-estados-unidos-arranca-temporada-argentinos-francisco-farabello-francisco-caffaro-rafael-martinez-lucas-mercandino-juanse-gorosito-felipe-palazzo",
-    "notas": "Hijo de Daniel Farabello (histórico de Liga Argentina y selección nacional). Pendiente confirmar roster 2026-27"
+    "notas": "Hijo de Daniel Farabello (histórico Liga Argentina). Terminó su carrera en Creighton (senior 2023-24). Ahora juega en Pinheiros Basquete (Novo Basquete Brasil)."
   },
   {
     "nombre": "Felipe Palazzo",
@@ -538,20 +553,5 @@
     "fecha": "N/D",
     "fuente": "https://newberrywolves.com/sports/womens-basketball/roster/2024-25",
     "notas": ""
-  },
-  {
-    "nombre": "Nerea Lagowski",
-    "genero": "F",
-    "tier": "Descartado / cautela",
-    "anio": "2006",
-    "posicion": "Pívot / Centro",
-    "origen": "Rosario",
-    "club_arg": "N/D",
-    "institucion": "Valencia Basket (España)",
-    "division": "Liga Femenina Endesa (España)",
-    "estado": "Firmó con Valencia Basket 4 temporadas (hasta 2028-29)",
-    "fecha": "12/01/2026",
-    "fuente": "https://www.feb.es/lfendesa/2026/1/12/baloncesto/nerea-lagowski-fichaje-altura-del-valencia-basket-para-las-proximas-cuatro-temporadas/104101.aspx",
-    "notas": "195cm. Eligió ruta profesional en España, no NCAA. Mejor centro del U18 AmeriCup 2024 (8.3 pts / 9.8 reb). Participó en el NCAA College Basketball Academy julio 2026 antes de firmar con Valencia."
   }
 ]
