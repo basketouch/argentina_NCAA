@@ -191,10 +191,8 @@
       <th data-k="club_arg">Club formación</th>
       <th data-k="institucion">Universidad</th>
       <th data-k="division">División</th>
-      <th data-k="estado">Estado</th>
       <th data-k="fecha">Fecha conf.</th>
       <th>Fuente</th>
-      <th data-k="notas">Notas</th>
     </tr>
   </thead>
   <tbody id="tbody"></tbody>
@@ -395,10 +393,8 @@ function render(){
       <td>${d.club_arg}</td>
       <td>${d.institucion}</td>
       <td>${d.division}</td>
-      <td>${d.estado}</td>
       <td>${d.fecha}</td>
       <td>${d.fuente ? `<a href="${d.fuente.split(' ; ')[0]}" target="_blank" onclick="event.stopPropagation()">link</a>` : ''}</td>
-      <td class="muted">${d.notas}</td>
     </tr>`;
   }).join("");
   _currentRows = rows;
