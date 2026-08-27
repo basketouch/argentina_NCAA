@@ -375,7 +375,7 @@ function render(){
     });
   }
 
-  document.getElementById("count").textContent = `${rows.length} jugador(es) encontrados`;
+  document.getElementById("count").innerHTML = `${rows.length} jugador(es) encontrados &nbsp;·&nbsp; <span style="color:var(--accent);font-style:italic">Haz clic en cualquier fila para ver el perfil completo</span>`;
   renderStats(rows);
   renderDivisionCards("chartDivision", rows, "division");
 
