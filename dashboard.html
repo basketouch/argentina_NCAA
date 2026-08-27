@@ -83,6 +83,25 @@
   a:hover{text-decoration:underline;}
   .count{padding:0 32px;color:var(--muted);font-size:12px;margin-bottom:6px;}
 
+  /* ── Modal ── */
+  .modal-overlay{position:fixed;inset:0;background:rgba(10,20,40,.55);backdrop-filter:blur(3px);z-index:900;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;}
+  .modal-overlay.open{opacity:1;pointer-events:all;}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:16px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(10,20,50,.18);transform:translateY(16px) scale(.97);transition:transform .22s cubic-bezier(.2,.8,.4,1), opacity .2s;opacity:0;overflow:hidden;}
+  .modal-overlay.open .modal{transform:none;opacity:1;}
+  .modal-header{padding:20px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px;}
+  .modal-tier-bar{width:4px;border-radius:4px;align-self:stretch;flex-shrink:0;}
+  .modal-name{font-size:20px;font-weight:800;color:var(--text);margin:0 0 6px;}
+  .modal-tag{display:inline-block;}
+  .modal-close{margin-left:auto;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;line-height:1;padding:0 2px;flex-shrink:0;}
+  .modal-close:hover{color:var(--text);}
+  .modal-body{padding:18px 22px 22px;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;}
+  .modal-field{display:flex;flex-direction:column;gap:2px;}
+  .modal-field.full{grid-column:1/-1;}
+  .modal-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+  .modal-value{font-size:13.5px;font-weight:600;color:var(--text);}
+  .modal-value a{color:var(--accent);}
+  .modal-value.notes{font-weight:400;color:var(--muted);font-size:12.5px;line-height:1.5;}
+
   @media (max-width:720px){
     header{padding:18px 16px 6px;}
     h1{font-size:18px;}
@@ -144,6 +163,21 @@
 </div>
 
 <div class="count" id="count"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div class="modal-tier-bar" id="modalTierBar"></div>
+      <div>
+        <div class="modal-name" id="modalName"></div>
+        <span class="tag modal-tag" id="modalTag"></span>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 <div class="tablewrap">
 <table>
   <thead>
@@ -338,9 +372,10 @@ function render(){
   renderStats(rows);
   renderDivisionCards("chartDivision", rows, "division");
 
-  document.getElementById("tbody").innerHTML = rows.map(d=>{
-    const meta = TIER_META[d.tier] || {c:"var(--muted)",bg:"#222"};
-    return `<tr style="border-left-color:${meta.c}">
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = rows.map((d,i)=>{
+    const meta = TIER_META[d.tier] || {c:"var(--muted)",bg:"#eaedf1"};
+    return `<tr style="border-left-color:${meta.c};cursor:pointer" data-idx="${i}" title="Ver detalle">
       <td class="name">${d.nombre}</td>
       <td>${d.genero}</td>
       <td><span class="tag" style="color:${meta.c};background:${meta.bg}">${d.tier}</span></td>
@@ -352,10 +387,14 @@ function render(){
       <td>${d.division}</td>
       <td>${d.estado}</td>
       <td>${d.fecha}</td>
-      <td>${d.fuente ? `<a href="${d.fuente.split(' ; ')[0]}" target="_blank">link</a>` : ''}</td>
+      <td>${d.fuente ? `<a href="${d.fuente.split(' ; ')[0]}" target="_blank" onclick="event.stopPropagation()">link</a>` : ''}</td>
       <td class="muted">${d.notas}</td>
     </tr>`;
   }).join("");
+  _currentRows = rows;
+  tbody.querySelectorAll("tr").forEach(tr=>{
+    tr.addEventListener("click", ()=> openModal(_currentRows[+tr.dataset.idx]));
+  });
 }
 
 document.getElementById("search").addEventListener("input", render);
@@ -376,6 +415,63 @@ document.querySelectorAll("thead th[data-k]").forEach(th=>{
     render();
   });
 });
+
+let _currentRows = [];
+
+function openModal(d){
+  const meta = TIER_META[d.tier] || {c:"var(--muted)",bg:"#eaedf1"};
+  document.getElementById("modalTierBar").style.background = meta.c;
+  document.getElementById("modalName").textContent = d.nombre;
+  const tag = document.getElementById("modalTag");
+  tag.textContent = d.tier;
+  tag.style.color = meta.c;
+  tag.style.background = meta.bg;
+
+  const fields = [
+    ["Institución", d.institucion],
+    ["División", d.division || "—"],
+    ["Género", d.genero === "M" ? "Masculino" : "Femenino"],
+    ["Año / Clase", d.anio || "—"],
+    ["Posición", d.posicion || "—"],
+    ["Origen", d.origen || "—"],
+    ["Club Argentina", d.club_arg || "—"],
+    ["Estado", d.estado || "—"],
+    ["Fecha confirmación", d.fecha || "—"],
+  ];
+
+  let html = fields.map(([lbl, val])=>`
+    <div class="modal-field">
+      <span class="modal-label">${lbl}</span>
+      <span class="modal-value">${val}</span>
+    </div>`).join("");
+
+  if(d.notas) html += `
+    <div class="modal-field full">
+      <span class="modal-label">Notas</span>
+      <span class="modal-value notes">${d.notas}</span>
+    </div>`;
+
+  if(d.fuente) html += `
+    <div class="modal-field full">
+      <span class="modal-label">Fuente</span>
+      <span class="modal-value"><a href="${d.fuente.split(' ; ')[0]}" target="_blank">${d.fuente.split(' ; ')[0]}</a></span>
+    </div>`;
+
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modalOverlay").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(){
+  document.getElementById("modalOverlay").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("modalClose").addEventListener("click", closeModal);
+document.getElementById("modalOverlay").addEventListener("click", e=>{
+  if(e.target === document.getElementById("modalOverlay")) closeModal();
+});
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
 
 render();
 loadFromSheet();
