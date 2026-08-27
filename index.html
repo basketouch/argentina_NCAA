@@ -185,11 +185,11 @@
       <th data-k="nombre">Nombre</th>
       <th data-k="genero">Género</th>
       <th data-k="tier">Nivel</th>
-      <th data-k="anio">Año/Clase</th>
+      <th data-k="anio">Año / Cat.</th>
       <th data-k="posicion">Posición</th>
       <th data-k="origen">Origen (ARG)</th>
       <th data-k="club_arg">Club en Argentina</th>
-      <th data-k="institucion">Institución USA</th>
+      <th data-k="institucion">Universidad</th>
       <th data-k="division">División</th>
       <th data-k="estado">Estado</th>
       <th data-k="fecha">Fecha conf.</th>
@@ -428,10 +428,10 @@ function openModal(d){
   tag.style.background = meta.bg;
 
   const fields = [
-    ["Institución", d.institucion],
+    ["Universidad", d.institucion],
     ["División", d.division || "—"],
     ["Género", d.genero === "M" ? "Masculino" : "Femenino"],
-    ["Año / Clase", d.anio || "—"],
+    ["Año / Categoría", d.anio || "—"],
     ["Posición", d.posicion || "—"],
     ["Origen", d.origen || "—"],
     ["Club Argentina", d.club_arg || "—"],
