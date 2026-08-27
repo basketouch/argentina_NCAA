@@ -497,11 +497,12 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
   const cols = ["Nombre","Género","Nivel","Nacimiento","Año/Cat.","Posición","Universidad","División","Fecha","Notas"];
+  const pdfStr = s => (s || "N/D").replace(/→/g, ">").replace(/[^\x00-\xFF]/g, "?");
   const rows = _currentRows.map(d => [
-    d.nombre, d.genero === "M" ? "Masc." : "Fem.", d.tier,
-    d.nacimiento || "N/D", d.anio || "N/D", d.posicion || "N/D",
-    d.institucion || "N/D", d.division || "N/D", d.fecha || "N/D",
-    (d.notas || "").slice(0, 120)
+    pdfStr(d.nombre), d.genero === "M" ? "Masc." : "Fem.", d.tier,
+    pdfStr(d.nacimiento), pdfStr(d.anio), pdfStr(d.posicion),
+    pdfStr(d.institucion), pdfStr(d.division), pdfStr(d.fecha),
+    pdfStr((d.notas || "").slice(0, 120))
   ]);
 
   const tierColors = {
