@@ -512,10 +512,13 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
 
   doc.setFontSize(13);
   doc.setTextColor(28, 39, 51);
-  doc.text("Jugadores Argentinos en USA — " + new Date().toLocaleDateString("es-AR"), 14, 14);
+  const ahora = new Date();
+  const fechaExport = ahora.toLocaleDateString("es-AR", {day:"2-digit",month:"2-digit",year:"numeric"});
+  const horaExport = ahora.toLocaleTimeString("es-AR", {hour:"2-digit",minute:"2-digit"});
+  doc.text("Jugadores Argentinos en USA", 14, 14);
   doc.setFontSize(9);
   doc.setTextColor(107, 120, 137);
-  doc.text(`${_currentRows.length} jugador(es) mostrados`, 14, 20);
+  doc.text(`${_currentRows.length} jugador(es) · Exportado el ${fechaExport} a las ${horaExport}`, 14, 20);
 
   doc.autoTable({
     startY: 25,
