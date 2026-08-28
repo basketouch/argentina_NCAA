@@ -585,12 +585,13 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
   doc.setFontSize(7.5);
   legend.forEach(({label, color, desc}) => {
     doc.setFillColor(...color);
-    doc.roundedRect(14, ly, 3, 3, 0.5, 0.5, "F");
+    doc.roundedRect(14, ly, 3.5, 3.5, 0.8, 0.8, "F");
     doc.setFont(undefined,"bold"); doc.setTextColor(28,39,51);
-    doc.text(label + ":", 19, ly+2.8);
+    doc.text(label, 20, ly+3);
+    const labelW = doc.getTextWidth(label); // mide en bold
     doc.setFont(undefined,"normal"); doc.setTextColor(107,120,137);
-    doc.text(desc, 19 + doc.getTextWidth(label + ": "), ly+2.8);
-    ly += 6;
+    doc.text("  —  " + desc, 20 + labelW, ly+3);
+    ly += 7;
   });
   if (filtros) {
     ly += 2;
