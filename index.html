@@ -416,25 +416,30 @@ document.querySelectorAll(".panel-toggle").forEach(h=>{
   });
 });
 document.querySelectorAll("thead th[data-k]").forEach(th=>{
+  th.dataset.label = th.textContent.trim(); // guarda el texto original una sola vez
+});
+
+function updateSortIndicators(){
+  document.querySelectorAll("thead th[data-k]").forEach(t=>{
+    const idx = sortStack.findIndex(s=>s.key===t.dataset.k);
+    const arrow = idx>=0 ? (sortStack[idx].asc ? " ↑" : " ↓") : "";
+    const num = sortStack.length>1 && idx>=0 ? `<sup style="color:var(--accent)">${idx+1}</sup>` : "";
+    t.innerHTML = t.dataset.label + arrow + num;
+  });
+}
+
+document.querySelectorAll("thead th[data-k]").forEach(th=>{
   th.addEventListener("click", e=>{
     const k = th.dataset.k;
     const existing = sortStack.findIndex(s=>s.key===k);
     if(e.shiftKey){
-      // Shift+clic: añade/invierte como orden secundario
       if(existing>=0) sortStack[existing].asc = !sortStack[existing].asc;
       else sortStack.push({key:k,asc:true});
     } else {
-      // Clic normal: nuevo orden primario
       if(existing===0) sortStack[0].asc = !sortStack[0].asc;
       else sortStack = [{key:k,asc:true}];
     }
-    // Actualiza indicadores visuales
-    document.querySelectorAll("thead th[data-k]").forEach(t=>{
-      const idx = sortStack.findIndex(s=>s.key===t.dataset.k);
-      const arrow = idx>=0 ? (sortStack[idx].asc ? " ↑" : " ↓") : "";
-      const num = sortStack.length>1 && idx>=0 ? `<sup>${idx+1}</sup>` : "";
-      t.innerHTML = t.textContent.replace(/ [↑↓]/g,"").trim() + arrow + num;
-    });
+    updateSortIndicators();
     render();
   });
 });
