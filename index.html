@@ -576,10 +576,26 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
     document.getElementById("filterDivision").value,
     document.getElementById("search").value,
   ].filter(Boolean).join(" · ");
+  const legend = [
+    { label: "Confirmado 2026-27", color: [26,160,90],   desc: "Plaza confirmada en equipo universitario USA 2026-27" },
+    { label: "En seguimiento",     color: [40,118,224],  desc: "Activo hasta 2025-26; situacion 2026-27 pendiente de verificar" },
+    { label: "Prospecto",          color: [184,134,11],  desc: "Sin compromiso aun; en prep school, cantera o exposicion NCAA" },
+  ];
+  let ly = doc.lastAutoTable.finalY + 8;
+  doc.setFontSize(7.5);
+  legend.forEach(({label, color, desc}) => {
+    doc.setFillColor(...color);
+    doc.roundedRect(14, ly, 3, 3, 0.5, 0.5, "F");
+    doc.setFont(undefined,"bold"); doc.setTextColor(28,39,51);
+    doc.text(label + ":", 19, ly+2.8);
+    doc.setFont(undefined,"normal"); doc.setTextColor(107,120,137);
+    doc.text(desc, 19 + doc.getTextWidth(label + ": "), ly+2.8);
+    ly += 6;
+  });
   if (filtros) {
-    const y = doc.lastAutoTable.finalY + 6;
+    ly += 2;
     doc.setFontSize(7); doc.setTextColor(150);
-    doc.text("Filtros: " + filtros, 14, y);
+    doc.text("Filtros: " + filtros, 14, ly);
   }
 
   const partesFiltro = [
