@@ -260,7 +260,7 @@ const FALLBACK_DATA = [
 }));
 
 let DATA = FALLBACK_DATA;
-let sortKey = null, sortAsc = true;
+let sortStack = []; // [{key, asc}, ...]
 
 const DATA_URL = "/jugadores.json";
 
@@ -366,10 +366,14 @@ function render(){
     return true;
   });
 
-  if(sortKey){
+  if(sortStack.length){
     rows.sort((a,b)=>{
-      const va=(a[sortKey]||"").toString(), vb=(b[sortKey]||"").toString();
-      return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+      for(const {key,asc} of sortStack){
+        const va=(a[key]||"").toString(), vb=(b[key]||"").toString();
+        const cmp = va.localeCompare(vb,"es",{sensitivity:"base"});
+        if(cmp!==0) return asc ? cmp : -cmp;
+      }
+      return 0;
     });
   }
 
@@ -412,9 +416,25 @@ document.querySelectorAll(".panel-toggle").forEach(h=>{
   });
 });
 document.querySelectorAll("thead th[data-k]").forEach(th=>{
-  th.addEventListener("click", ()=>{
+  th.addEventListener("click", e=>{
     const k = th.dataset.k;
-    if(sortKey===k) sortAsc=!sortAsc; else {sortKey=k; sortAsc=true;}
+    const existing = sortStack.findIndex(s=>s.key===k);
+    if(e.shiftKey){
+      // Shift+clic: añade/invierte como orden secundario
+      if(existing>=0) sortStack[existing].asc = !sortStack[existing].asc;
+      else sortStack.push({key:k,asc:true});
+    } else {
+      // Clic normal: nuevo orden primario
+      if(existing===0) sortStack[0].asc = !sortStack[0].asc;
+      else sortStack = [{key:k,asc:true}];
+    }
+    // Actualiza indicadores visuales
+    document.querySelectorAll("thead th[data-k]").forEach(t=>{
+      const idx = sortStack.findIndex(s=>s.key===t.dataset.k);
+      const arrow = idx>=0 ? (sortStack[idx].asc ? " ↑" : " ↓") : "";
+      const num = sortStack.length>1 && idx>=0 ? `<sup>${idx+1}</sup>` : "";
+      t.innerHTML = t.textContent.replace(/ [↑↓]/g,"").trim() + arrow + num;
+    });
     render();
   });
 });
