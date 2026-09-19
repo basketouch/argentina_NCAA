@@ -33,7 +33,11 @@
   .sync-dot.ok{background:#1aa05a;}
   .sync-dot.error{background:#d63b3b;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:4px 32px 20px;}
   .toprow{display:flex;gap:24px;align-items:flex-start;padding:0 32px 8px;flex-wrap:wrap;}
+  .statcol-narrow{flex:1 1 240px;}
+  .statcol-wide{flex:2.2 1 420px;}
+  .barpanel{background:linear-gradient(155deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:12px;padding:12px 18px;box-shadow:0 2px 10px rgba(30,40,60,.06);}
   .statcol{flex:1 1 320px;min-width:280px;}
   .col-title{margin:0 0 10px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
   .col-title.panel-toggle{display:flex;align-items:center;gap:6px;}
@@ -60,11 +64,11 @@
   .panel-body{overflow:hidden;max-height:1000px;transition:max-height .25s ease, opacity .2s ease;opacity:1;}
   .panel-body.collapsed{max-height:0;opacity:0;}
   .panel.is-collapsed .chevron{transform:rotate(-90deg);}
-  .bar-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;}
-  .bar-label{width:140px;flex-shrink:0;color:var(--muted);text-align:right;}
+  .bar-row{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12px;}
+  .bar-label{width:112px;flex-shrink:0;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .bar-track{flex:1;background:#eef1f5;border-radius:5px;height:15px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--border);}
   .bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .3s;}
-  .bar-count{width:28px;color:var(--text);font-size:11.5px;font-weight:600;}
+  .bar-count{width:24px;text-align:right;color:var(--text);font-size:11.5px;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;}
   thead th{
     text-align:center;font-size:11px;color:var(--muted);text-transform:uppercase;
@@ -110,6 +114,9 @@
     h1{font-size:18px;}
     .sub{font-size:12px;}
     .toprow{padding:0 16px 8px;gap:18px;}
+    .kpis{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 16px 14px;}
+    .barpanel{padding:10px 12px;}
+    .bar-label{width:84px;font-size:11px;}
     .statcol{min-width:0;flex:1 1 100%;}
     .stats{gap:8px;}
     .stat{padding:10px 14px;min-width:0;flex:1 1 calc(50% - 8px);}
@@ -132,25 +139,23 @@
 <body>
 
 <header>
-  <h1><img src="flag.png" alt="Argentina" class="flag-icon"> Mapa de jugadores argentinos en el exterior</h1>
+  <h1><img src="flag.png" alt="" class="flag-icon"> Mapa de jugadores argentinos en el exterior</h1>
   <div class="sub-row">
     <span class="sub">Actualizado el 19/09/2026 · 65 jugadores</span>
     <span class="sync-dot" id="syncDot"></span>
   </div>
 </header>
 
+<div class="kpis" id="stats"></div>
+
 <div class="toprow">
-  <div class="statcol">
-    <h3 class="col-title">Total filtrado</h3>
-    <div class="stats" id="stats"></div>
-  </div>
-  <div class="statcol">
+  <div class="statcol statcol-narrow">
     <h3 class="col-title">Por país</h3>
-    <div class="stats" id="chartPais"></div>
+    <div class="barpanel" id="chartPais"></div>
   </div>
-  <div class="statcol">
+  <div class="statcol statcol-wide">
     <h3 class="col-title">Por división</h3>
-    <div class="stats" id="chartDivision"></div>
+    <div class="barpanel" id="chartDivision"></div>
   </div>
 </div>
 
@@ -208,6 +213,8 @@
 </div>
 
 <script>
+const PAIS_COLOR = { "USA": "#2876e0", "España": "#d63b3b" };
+
 const TIER_META = {
   "Confirmado 2026-27": {c:"var(--t1)", bg:"var(--t1bg)"},
   "Prospecto": {c:"var(--t2)", bg:"var(--t2bg)"},
@@ -349,17 +356,33 @@ function renderStats(rows){
   `;
 }
 
-function renderBarChart(targetId, rows, key, colorVar="var(--accent)"){
+function renderBarChart(targetId, rows, key, opts){
+  opts = opts || {};
+  const groupMin = opts.groupMin || 0;
   const counts = {};
   rows.forEach(r=>{ const k = (r[key]||"").trim() || "Sin asignar"; counts[k] = (counts[k]||0)+1; });
-  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  let entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+
+  // Las divisiones minoritarias se agrupan para no llenar el panel de colas
+  let restTitle = "";
+  if(groupMin > 0){
+    const rest = entries.filter(e=>e[1] < groupMin);
+    if(rest.length > 1){
+      entries = entries.filter(e=>e[1] >= groupMin);
+      const sum = rest.reduce((a,e)=>a+e[1], 0);
+      restTitle = rest.map(e=>`${e[0]}: ${e[1]}`).join(" · ");
+      entries.push(["Otras (" + rest.length + ")", sum]);
+    }
+  }
+
   const max = Math.max(...entries.map(e=>e[1]), 1);
   document.getElementById(targetId).innerHTML = entries.map(([label,count])=>{
-    const pct = (count/max*100).toFixed(0);
-    const meta = TIER_META[label];
-    const color = meta ? meta.c : colorVar;
-    return `<div class="bar-row">
-      <div class="bar-label" title="${label}">${label.length>22?label.slice(0,20)+'…':label}</div>
+    const pct = (count/max*100).toFixed(1);
+    const esOtras = label.startsWith("Otras (");
+    const color = esOtras ? "var(--muted)" : (opts.colorFn ? opts.colorFn(label) : "var(--accent)");
+    const tip = esOtras ? restTitle : label;
+    return `<div class="bar-row" title="${tip}">
+      <div class="bar-label">${label}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
       <div class="bar-count">${count}</div>
     </div>`;
@@ -410,8 +433,8 @@ function render(){
 
   document.getElementById("count").innerHTML = `${rows.length} jugador(es) encontrados &nbsp;·&nbsp; <span style="color:var(--accent);font-style:italic">Haz clic en cualquier fila para ver el perfil completo</span>`;
   renderStats(rows);
-  renderDivisionCards("chartPais", rows, "pais");
-  renderDivisionCards("chartDivision", rows, "division");
+  renderBarChart("chartPais", rows, "pais", {colorFn: p => PAIS_COLOR[p] || "var(--accent)"});
+  renderBarChart("chartDivision", rows, "division", {groupMin: 3});
 
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = rows.map((d,i)=>{
