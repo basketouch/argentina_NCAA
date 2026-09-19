@@ -338,25 +338,69 @@ async function loadFromSheet(silent){
   }
 }
 
+const ETIQUETA_GENERO = { M: "Masculino", F: "Femenino" };
+
+// Evalua una fila contra los filtros activos. Con "ignorar" se excluye uno,
+// que es lo que permite saber qué opciones tendrían sentido en ese desplegable.
+function pasaFiltros(d, ignorar){
+  const q  = document.getElementById("search").value.toLowerCase();
+  const ft = document.getElementById("filterTier").value;
+  const fg = document.getElementById("filterGenero").value;
+  const fd = document.getElementById("filterDivision").value;
+  const fp = document.getElementById("filterPais").value;
+
+  if(ignorar!=="tier"   && ft && d.tier!==ft)     return false;
+  if(ignorar!=="genero" && fg && d.genero!==fg)   return false;
+  if(ignorar!=="pais"   && fp && d.pais!==fp)     return false;
+  if(ignorar!=="division" && fd){
+    const div = (d.division||"").trim() || "Sin asignar";
+    if(fd === OTRAS){ if(!divisionesMinoritarias().has(div)) return false; }
+    else if(d.division !== fd) return false;
+  }
+  if(q){
+    const hay = `${d.nombre} ${d.institucion} ${d.origen} ${d.club_arg} ${d.posicion} ${d.pais}`.toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  return true;
+}
+
 function fillSelect(id, key){
   const sel = document.getElementById(id);
-  const previo = sel.value;
+  const actual = sel.value;
+
+  // Compatibles con los DEMAS filtros: por eso se ignora el propio
+  const counts = {};
+  DATA.filter(d => pasaFiltros(d, key)).forEach(d=>{
+    const v = key==="division" ? ((d.division||"").trim() || "Sin asignar") : d[key];
+    if(v) counts[v] = (counts[v]||0) + 1;
+  });
+
+  let opciones;
+  if(key === "division"){
+    const chicas = divisionesMinoritarias();
+    opciones = Object.keys(counts).filter(v=>!chicas.has(v)).sort()
+                 .map(v=>[v, `${v} (${counts[v]})`]);
+    const suma = [...chicas].reduce((a,c)=>a + (counts[c]||0), 0);
+    if(suma > 0) opciones.push([OTRAS, `Otras (${suma})`]);
+  } else {
+    opciones = Object.keys(counts).sort()
+                 .map(v=>[v, `${ETIQUETA_GENERO[v] || v} (${counts[v]})`]);
+  }
+
+  // Si la seleccion vigente se queda sin resultados, se mantiene visible con (0)
+  // para que se vea por qué la tabla está vacía y se pueda deshacer
+  if(actual && !opciones.some(o=>o[0]===actual)){
+    const txt = actual===OTRAS ? "Otras" : (ETIQUETA_GENERO[actual] || actual);
+    opciones.push([actual, `${txt} (0)`]);
+  }
+
   sel.innerHTML = sel.options[0].outerHTML;
-  const chicas = key === "division" ? divisionesMinoritarias() : new Set();
-  const vals = [...new Set(DATA.map(d=>d[key]).filter(Boolean))].sort()
-                 .filter(v => !chicas.has(v));
-  vals.forEach(v=>{
+  opciones.forEach(([val,txt])=>{
     const o = document.createElement("option");
-    o.value = v; o.textContent = v;
+    o.value = val; o.textContent = txt;
     sel.appendChild(o);
   });
-  if(chicas.size){
-    const o = document.createElement("option");
-    o.value = OTRAS;
-    o.textContent = "Otras (" + chicas.size + ")";
-    sel.appendChild(o);
-  }
-  if(previo) sel.value = previo;
+  sel.value = actual;
 }
 
 function refreshSelectsAndRender(){
@@ -445,27 +489,7 @@ function renderDivisionCards(targetId, rows, key){
 }
 
 function render(){
-  const q = document.getElementById("search").value.toLowerCase();
-  const ft = document.getElementById("filterTier").value;
-  const fg = document.getElementById("filterGenero").value;
-  const fd = document.getElementById("filterDivision").value;
-  const fp = document.getElementById("filterPais").value;
-
-  let rows = DATA.filter(d=>{
-    if(ft && d.tier!==ft) return false;
-    if(fg && d.genero!==fg) return false;
-    if(fd){
-      const div = (d.division||"").trim() || "Sin asignar";
-      if(fd === OTRAS){ if(!divisionesMinoritarias().has(div)) return false; }
-      else if(d.division !== fd) return false;
-    }
-    if(fp && d.pais!==fp) return false;
-    if(q){
-      const hay = `${d.nombre} ${d.institucion} ${d.origen} ${d.club_arg} ${d.posicion} ${d.pais}`.toLowerCase();
-      if(!hay.includes(q)) return false;
-    }
-    return true;
-  });
+  let rows = DATA.filter(d => pasaFiltros(d));
 
   if(sortStack.length){
     rows.sort((a,b)=>{
@@ -479,6 +503,10 @@ function render(){
   }
 
   document.getElementById("count").innerHTML = `${rows.length} jugador(es) encontrados &nbsp;·&nbsp; <span style="color:var(--accent);font-style:italic">Haz clic en cualquier fila para ver el perfil completo</span>`;
+  // Cada desplegable se repuebla con lo que sigue siendo alcanzable
+  ["filterTier|tier","filterGenero|genero","filterDivision|division","filterPais|pais"]
+    .forEach(par => { const [id,k] = par.split("|"); fillSelect(id, k); });
+
   renderStats(rows);
   renderBarChart("chartPais", rows, "pais", {colorFn: p => PAIS_COLOR[p] || "var(--accent)", filtroId: "filterPais"});
   renderBarChart("chartDivision", rows, "division", {groupMin: GROUP_MIN, filtroId: "filterDivision"});
