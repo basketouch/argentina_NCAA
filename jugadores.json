@@ -949,7 +949,7 @@
     "estado": "Confirmada en el filial del Valencia Basket 2026-27",
     "fecha": "10/08/2026",
     "fuente": "https://www.feb.es/2026/8/10/baloncesto/valencia-basket-define-plantilla-staff-para-nueva-etapa-challenge/105930.aspx",
-    "notas": "1.95m. Contrato con Valencia Basket hasta 2028-29, firmado en enero de 2026. En la 26-27 juega en el filial taronja que estrena plaza en LF Challenge. Llegó desde Universidad Austral (LNF Chile), donde fue máxima reboteadora. Internacional en todas las categorías formativas; en el U18 AmeriCup 2024 promedió 8.3 pts y 9.8 reb, mejor pívot del quinteto ideal y bronce."
+    "notas": "1.95m. Contrato con Valencia Basket hasta 2028-29, firmado en enero de 2026. En la 26-27 juega en el filial taronja que estrena plaza en LF Challenge. Llegó desde Universidad Austral (LNF Chile), donde fue máxima reboteadora. Internacional en todas las categorías formativas; en el U18 AmeriCup 2024 promedió 8.3 pts y 9.8 reb, mejor pívot del quinteto ideal y bronce. Contrato hasta 2028-29. Discrepancia entre fuentes sobre su liga esta temporada: la nota de agosto de 2026 sitúa al filial del Valencia en LF Challenge, mientras que otra fuente la da cedida a La Cordà de Paterna en LF2. Pendiente de cerrar."
   },
   {
     "nombre": "Andrea Boquete",
@@ -986,37 +986,37 @@
     "notas": "1.86m, 26 años (fecha exacta sin confirmar). Debut profesional en Europa tras la NCAA: Robert Morris (Horizon League All-Freshman Team y MVP del equipo, 8.6 pts en su segundo año) y University of San Francisco. Internacional de U17 a mayores; máxima reboteadora de Argentina en el Mundial U19 2019; Sudamericano 2026 y clasificatorio AmeriCup. Compañera de Andrea Boquete en León. Formada también en Club Lanús."
   },
   {
-    "nombre": "Amaiquen Siciliano",
-    "genero": "F",
-    "pais": "España",
-    "tier": "En seguimiento",
-    "anio": "Profesional",
-    "nacimiento": "N/D",
-    "posicion": "Base / Escolta",
-    "origen": "Buenos Aires",
-    "club_arg": "Vélez Sarsfield",
-    "institucion": "Azulmarino Mallorca Palma",
-    "division": "LF Endesa",
-    "estado": "Continuidad 2026-27 sin acreditar",
-    "fecha": "N/D",
-    "fuente": "https://www.basketmallorca.com/es-es/noticias/azulmarinoamaiquensiciliano",
-    "notas": "1.65m. Doble nacionalidad argentino-italiana; la FEB la inscribe como Italia en plaza de cupo. Fichó en 2025 y jugó la 25-26 en LF Challenge con el Azulmarino, que ascendió a LF Endesa. La nota del club sobre el proyecto 26-27 solo cita a otras cuatro renovadas, así que su continuidad no está confirmada. Antes en Bishop's Gaiters (Canadá, cinco años), Viganaro y Passalacqua Ragusa (Italia A2, máxima anotadora). Campeona Sudamericana 2024; convocada al Clasificatorio Mundial 2026."
-  },
-  {
     "nombre": "Victoria Gauna",
     "genero": "F",
     "pais": "España",
     "tier": "En seguimiento",
     "anio": "Profesional",
-    "nacimiento": "N/D",
+    "nacimiento": "22/07/2001",
     "posicion": "Alero / Ala-pívot",
     "origen": "Mendoza",
     "club_arg": "N/D",
-    "institucion": "Alter Enersun Al-Qázeres Extremadura",
+    "institucion": "Osés Construcción Ardoi",
     "division": "LF Challenge",
-    "estado": "Continuidad 2026-27 sin acreditar",
+    "estado": "En Ardoi 2026-27, pendiente de confirmar con el club",
     "fecha": "N/D",
-    "fuente": "https://deportesextremadura.es/alter-enersun-al-qazeres-extremadura-e-hierros-diaz-extremadura-miralvalle-representaran-a-la-region-en-las-ligas-femeninas-feb-durante-la-temporada-2026-2027/",
-    "notas": "Figura en el plantel de Al-Qázeres en 2026 y en la convocatoria argentina del Clasificatorio Mundial de marzo de 2026, con club Al-Qázeres Cáceres. Al-Qázeres compite en LF Challenge en la 26-27, pero no hay nota de renovación ni de baja para esta temporada."
+    "fuente": "https://basketball.latinbasket.com/player/Victoria-Gauna/441024?Women=1",
+    "notas": "1.85m. Ala-pívot de Mendoza. Latinbasket la sitúa en Osés Construcción Ardoi para la 26-27; Al-Qázeres fue su club anterior. Convocada por Argentina al Clasificatorio Mundial de marzo de 2026. Falta confirmación de la propia web de Ardoi."
+  },
+  {
+    "nombre": "Melisa Gretter",
+    "genero": "F",
+    "pais": "España",
+    "tier": "Confirmado 2026-27",
+    "anio": "Profesional",
+    "nacimiento": "1991",
+    "posicion": "Base",
+    "origen": "Rafaela, Santa Fe",
+    "club_arg": "N/D",
+    "institucion": "CAB Estepona",
+    "division": "LF Endesa",
+    "estado": "Renovada en CAB Estepona 2026-27",
+    "fecha": "27/04/2026",
+    "fuente": "https://www.infobae.com/espana/agencias/2026/04/27/la-base-argentina-meli-gretter-renueva-una-temporada-con-el-cab-estepona/",
+    "notas": "Capitana de Las Gigantes, la selección argentina. Larga trayectoria en España: Araski, Spar Gran Canaria y ahora Estepona, que debuta en competición europea. Renovó una temporada más en abril de 2026 y figura en el plantel argentino del Preclasificatorio para Los Ángeles 2028 (agosto 2026). Coincide en el club con Alma Bourgarel."
   }
 ]
