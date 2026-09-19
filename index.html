@@ -64,7 +64,11 @@
   .panel-body{overflow:hidden;max-height:1000px;transition:max-height .25s ease, opacity .2s ease;opacity:1;}
   .panel-body.collapsed{max-height:0;opacity:0;}
   .panel.is-collapsed .chevron{transform:rotate(-90deg);}
-  .bar-row{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12px;}
+  .bar-row{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12px;cursor:pointer;border-radius:6px;padding:2px 4px;transition:background .15s;}
+  .bar-row:hover{background:#eef3fa;}
+  .bar-row:hover .bar-label{color:var(--accent);}
+  .bar-row.activa{background:#e3edfb;}
+  .bar-row.activa .bar-label{color:var(--accent);font-weight:700;}
   .bar-label{width:112px;flex-shrink:0;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .bar-track{flex:1;background:#eef1f5;border-radius:5px;height:15px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--border);}
   .bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .3s;}
@@ -213,6 +217,22 @@
 </div>
 
 <script>
+const GROUP_MIN = 3;          // divisiones con menos de 65 jugadores se agrupan
+const OTRAS = "__otras__";     // valor especial del filtro de división
+
+// Etiqueta legible de un filtro: "Otras (5)" en vez de "__otras__"
+function textoFiltro(id){
+  const sel = document.getElementById(id);
+  return sel.value ? sel.options[sel.selectedIndex].textContent.trim() : "";
+}
+
+function divisionesMinoritarias(){
+  const c = {};
+  DATA.forEach(d=>{ const k=(d.division||"").trim()||"Sin asignar"; c[k]=(c[k]||0)+1; });
+  const chicas = Object.keys(c).filter(k=>c[k] < GROUP_MIN);
+  return chicas.length > 1 ? new Set(chicas) : new Set();
+}
+
 const PAIS_COLOR = { "USA": "#2876e0", "España": "#d63b3b" };
 
 const TIER_META = {
@@ -320,13 +340,23 @@ async function loadFromSheet(silent){
 
 function fillSelect(id, key){
   const sel = document.getElementById(id);
+  const previo = sel.value;
   sel.innerHTML = sel.options[0].outerHTML;
-  const vals = [...new Set(DATA.map(d=>d[key]).filter(Boolean))].sort();
+  const chicas = key === "division" ? divisionesMinoritarias() : new Set();
+  const vals = [...new Set(DATA.map(d=>d[key]).filter(Boolean))].sort()
+                 .filter(v => !chicas.has(v));
   vals.forEach(v=>{
     const o = document.createElement("option");
     o.value = v; o.textContent = v;
     sel.appendChild(o);
   });
+  if(chicas.size){
+    const o = document.createElement("option");
+    o.value = OTRAS;
+    o.textContent = "Otras (" + chicas.size + ")";
+    sel.appendChild(o);
+  }
+  if(previo) sel.value = previo;
 }
 
 function refreshSelectsAndRender(){
@@ -381,12 +411,25 @@ function renderBarChart(targetId, rows, key, opts){
     const esOtras = label.startsWith("Otras (");
     const color = esOtras ? "var(--muted)" : (opts.colorFn ? opts.colorFn(label) : "var(--accent)");
     const tip = esOtras ? restTitle : label;
-    return `<div class="bar-row" title="${tip}">
+    const valor = esOtras ? OTRAS : label;
+    const activa = opts.filtroId && document.getElementById(opts.filtroId).value === valor;
+    return `<div class="bar-row${activa?" activa":""}" title="${tip}" data-val="${valor}">
       <div class="bar-label">${label}</div>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
       <div class="bar-count">${count}</div>
     </div>`;
   }).join("");
+
+  if(opts.filtroId){
+    const sel = document.getElementById(opts.filtroId);
+    document.getElementById(targetId).querySelectorAll(".bar-row").forEach(fila=>{
+      fila.addEventListener("click", ()=>{
+        const v = fila.dataset.val;
+        sel.value = (sel.value === v) ? "" : v;   // segundo clic: quitar filtro
+        render();
+      });
+    });
+  }
 }
 
 function renderDivisionCards(targetId, rows, key){
@@ -411,7 +454,11 @@ function render(){
   let rows = DATA.filter(d=>{
     if(ft && d.tier!==ft) return false;
     if(fg && d.genero!==fg) return false;
-    if(fd && d.division!==fd) return false;
+    if(fd){
+      const div = (d.division||"").trim() || "Sin asignar";
+      if(fd === OTRAS){ if(!divisionesMinoritarias().has(div)) return false; }
+      else if(d.division !== fd) return false;
+    }
     if(fp && d.pais!==fp) return false;
     if(q){
       const hay = `${d.nombre} ${d.institucion} ${d.origen} ${d.club_arg} ${d.posicion} ${d.pais}`.toLowerCase();
@@ -433,8 +480,8 @@ function render(){
 
   document.getElementById("count").innerHTML = `${rows.length} jugador(es) encontrados &nbsp;·&nbsp; <span style="color:var(--accent);font-style:italic">Haz clic en cualquier fila para ver el perfil completo</span>`;
   renderStats(rows);
-  renderBarChart("chartPais", rows, "pais", {colorFn: p => PAIS_COLOR[p] || "var(--accent)"});
-  renderBarChart("chartDivision", rows, "division", {groupMin: 3});
+  renderBarChart("chartPais", rows, "pais", {colorFn: p => PAIS_COLOR[p] || "var(--accent)", filtroId: "filterPais"});
+  renderBarChart("chartDivision", rows, "division", {groupMin: GROUP_MIN, filtroId: "filterDivision"});
 
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = rows.map((d,i)=>{
@@ -629,10 +676,10 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
 
   // Filtros activos en footer
   const filtros = [
-    document.getElementById("filterTier").value,
-    document.getElementById("filterGenero").value,
-    document.getElementById("filterDivision").value,
-    document.getElementById("filterPais").value,
+    textoFiltro("filterTier"),
+    textoFiltro("filterGenero"),
+    textoFiltro("filterDivision"),
+    textoFiltro("filterPais"),
     document.getElementById("search").value,
   ].filter(Boolean).join(" · ");
   const legend = [
@@ -659,10 +706,10 @@ document.getElementById("exportPdf").addEventListener("click", async () => {
   }
 
   const partesFiltro = [
-    document.getElementById("filterTier").value,
-    document.getElementById("filterGenero").value,
-    document.getElementById("filterDivision").value,
-    document.getElementById("filterPais").value,
+    textoFiltro("filterTier"),
+    textoFiltro("filterGenero"),
+    textoFiltro("filterDivision"),
+    textoFiltro("filterPais"),
     document.getElementById("search").value.trim().slice(0,20),
   ].filter(Boolean).map(s => s.replace(/\s+/g,"-").replace(/[^a-zA-Z0-9\-áéíóúÁÉÍÓÚüÜñÑ]/g,""));
   const filtroStr = partesFiltro.length ? partesFiltro.join("-") : "todos";
