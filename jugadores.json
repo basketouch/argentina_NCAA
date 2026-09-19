@@ -2,6 +2,7 @@
   {
     "nombre": "Santiago Trouet",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "25/01/2004",
@@ -18,6 +19,7 @@
   {
     "nombre": "Tyler Kropp",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Sophomore",
     "nacimiento": "06/03/2007",
@@ -34,6 +36,7 @@
   {
     "nombre": "Thiago Sucatzky",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "12/04/2006",
@@ -50,6 +53,7 @@
   {
     "nombre": "Georgi Buzzetti",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Redshirt Junior",
     "nacimiento": "27/03/2003",
@@ -66,6 +70,7 @@
   {
     "nombre": "Sol Depetris",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Freshman",
     "nacimiento": "23/03/2007",
@@ -82,6 +87,7 @@
   {
     "nombre": "Paula López",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "11/06/2005",
@@ -98,6 +104,7 @@
   {
     "nombre": "Dylan Bordón",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Freshman",
     "nacimiento": "16/10/2004",
@@ -114,6 +121,7 @@
   {
     "nombre": "Lee Aaliya",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Pro (ACB)",
     "nacimiento": "08/11/2004",
@@ -130,6 +138,7 @@
   {
     "nombre": "Felipe Minzer",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "13/09/2007",
@@ -146,6 +155,7 @@
   {
     "nombre": "Máximo Adams",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "2007",
@@ -162,6 +172,7 @@
   {
     "nombre": "Milagros Morell",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Freshman",
     "nacimiento": "2007",
@@ -178,6 +189,7 @@
   {
     "nombre": "Malena Maggi",
     "genero": "F",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "N/D",
     "nacimiento": "24/10/2006",
@@ -194,6 +206,7 @@
   {
     "nombre": "Alessia Reale",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Freshman",
     "nacimiento": "2006",
@@ -210,6 +223,7 @@
   {
     "nombre": "Alma Bourgarel",
     "genero": "F",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "N/D",
     "nacimiento": "08/11/2006",
@@ -226,6 +240,7 @@
   {
     "nombre": "Simón Gradín",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "2008",
@@ -242,6 +257,7 @@
   {
     "nombre": "Iván Prato",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "2007",
@@ -258,6 +274,7 @@
   {
     "nombre": "Lautaro Basualdo",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "2010",
@@ -274,6 +291,7 @@
   {
     "nombre": "Benjamín Pettovello",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "2008",
@@ -290,6 +308,7 @@
   {
     "nombre": "Bautista Giralt",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Junior",
     "nacimiento": "04/06/2004",
@@ -306,6 +325,7 @@
   {
     "nombre": "Lucas Mercandino",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Senior",
     "nacimiento": "N/D",
@@ -322,6 +342,7 @@
   {
     "nombre": "Ignacio García",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Junior",
     "nacimiento": "2005",
@@ -338,6 +359,7 @@
   {
     "nombre": "Facundo Aranda",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Junior",
     "nacimiento": "2002",
@@ -354,6 +376,7 @@
   {
     "nombre": "Bautista Rodríguez",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Sophomore",
     "nacimiento": "13/04/2004",
@@ -370,6 +393,7 @@
   {
     "nombre": "Matías Zanotto",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Freshman",
     "nacimiento": "30/05/2005",
@@ -386,6 +410,7 @@
   {
     "nombre": "Tobías Lábaque",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Sophomore",
     "nacimiento": "2005",
@@ -402,6 +427,7 @@
   {
     "nombre": "Bernardo Zappia",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Freshman",
     "nacimiento": "N/D",
@@ -418,6 +444,7 @@
   {
     "nombre": "Delfina Cergneux",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Sophomore",
     "nacimiento": "N/D",
@@ -434,6 +461,7 @@
   {
     "nombre": "Alonso Easterling",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "Redshirt Freshman",
     "nacimiento": "20/02/2006",
@@ -450,6 +478,7 @@
   {
     "nombre": "Juan Fernández",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "21/11/2002",
@@ -466,6 +495,7 @@
   {
     "nombre": "Fidel Rotta",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "Freshman",
     "nacimiento": "01/11/2007",
@@ -482,6 +512,7 @@
   {
     "nombre": "Juan Ignacio Dassie",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "2002",
@@ -498,6 +529,7 @@
   {
     "nombre": "Francisco Espinosa",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "21/06/2004",
@@ -514,6 +546,7 @@
   {
     "nombre": "Pedro Rossi",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "13/03/2002",
@@ -530,6 +563,7 @@
   {
     "nombre": "Gonzalo Canido",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "N/D",
@@ -546,6 +580,7 @@
   {
     "nombre": "Matías Bugallo",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "N/D",
@@ -562,6 +597,7 @@
   {
     "nombre": "Santiago Ndukanma",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "N/D",
@@ -578,6 +614,7 @@
   {
     "nombre": "Giovanni Toscanini",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "N/D",
@@ -594,6 +631,7 @@
   {
     "nombre": "Santiago Insaurralde",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "2002",
@@ -610,6 +648,7 @@
   {
     "nombre": "Ignacio Dacunda",
     "genero": "M",
+    "pais": "USA",
     "tier": "En seguimiento",
     "anio": "N/D",
     "nacimiento": "N/D",
@@ -626,6 +665,7 @@
   {
     "nombre": "Julia Fernández",
     "genero": "F",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Prospecto",
     "nacimiento": "14/08/2004",
@@ -642,6 +682,7 @@
   {
     "nombre": "Gianella Espedale",
     "genero": "F",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "13/08/2005",
@@ -658,6 +699,7 @@
   {
     "nombre": "Rocco Lence",
     "genero": "M",
+    "pais": "USA",
     "tier": "Prospecto",
     "anio": "Class 2027",
     "nacimiento": "N/D",
@@ -674,6 +716,7 @@
   {
     "nombre": "Agustín Jenik Chasco",
     "genero": "M",
+    "pais": "USA",
     "tier": "Confirmado 2026-27",
     "anio": "N/D",
     "nacimiento": "N/D",
